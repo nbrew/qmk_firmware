@@ -8,6 +8,53 @@ enum layer_names {
     _FN3
 };
 
+enum custom_keycodes {
+    // QMKBEST = SAFE_RANGE,
+    // QMKURL,
+    MAC_OPEN_ZOOM,
+    MAC_OPEN_OUTLOOK,
+    MAC_OPEN_TERMINAL,
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+    // case QMKBEST:
+    //     if (record->event.pressed) {
+    //         // when keycode QMKBEST is pressed
+    //         SEND_STRING("QMK is the best thing ever!");
+    //     } else {
+    //         // when keycode QMKBEST is released
+    //     }
+    //     break;
+
+    // case QMKURL:
+    //     if (record->event.pressed) {
+    //         // when keycode QMKURL is pressed
+    //         SEND_STRING("https://qmk.fm/\n");
+    //     } else {
+    //         // when keycode QMKURL is released
+    //     }
+    //     break;
+
+    case MAC_OPEN_ZOOM:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LGUI(" ") SS_DELAY(50) "zoom.us.app" SS_TAP(X_ENTER));
+        }
+        return false;
+    case MAC_OPEN_OUTLOOK:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LGUI(" ") SS_DELAY(50) "Outlook" SS_TAP(X_ENTER));
+        }
+        return false;
+    case MAC_OPEN_TERMINAL:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LGUI(" ") SS_DELAY(50) "Terminal" SS_TAP(X_ENTER));
+        }
+        return false;
+    }
+    return true;
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┬───┬───┐
@@ -19,9 +66,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┘
      */
     [_BASE] = LAYOUT_ortho_3x3(
-        KC_7,       KC_8,       KC_9,
-        KC_4,       KC_5,       KC_6,
-        KC_1,       KC_2,       KC_3
+        MO(_FN1),       KC_8,       KC_9,
+        KC_4,           KC_5,       KC_6,
+        MAC_OPEN_ZOOM,       MAC_OPEN_OUTLOOK,       MAC_OPEN_TERMINAL
     ),
 
     [_FN1] = LAYOUT_ortho_3x3(
